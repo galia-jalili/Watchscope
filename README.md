@@ -25,3 +25,5 @@ discord_webhook_url = "your webhook link"
 discord_webhook_url_error = "your webhook link for error messages"
 ```
 ### Note: Before making changes to your code, you should create two channels in your Discord server: one for receiving new scopes and another for receiving potential errors, so that you can use their webhook URLs in your code.
+
+#### in this code we use https://github.com/Osb0rn3/bugbounty-targets repository.
