@@ -11,8 +11,8 @@ def connect_to_mysql():
         # connect to the database
         db = mysql.connector.connect(
             host="localhost",
-            user="seyed",
-            password="",
+            user="database username",
+            password="database password",
             database="watchscope"
         )
 
@@ -23,8 +23,8 @@ def connect_to_mysql():
         print("Error while connecting to MySQL", error)
         return None
 
-discord_webhook_url = "https://discord.com/api/webhooks/1079110701047611402/VC8AW29Q65ay8BYZU1ROgxeRjGqWS4ypsqr8VfMyTlx3pHTb3G9fHF4kZWSRzkpZzWId"
-discord_webhook_url_error = "https://discord.com/api/webhooks/1078935646816702604/Og8heXSHX0o2lEX0h3pcFSZhBr2dpcuULZF6ZGCkQlCkDpQ2evUV_tPnIZUe-SNlSiAc"
+discord_webhook_url = "your webhook link"
+discord_webhook_url_error = "your webhook link for error messages"
 webhook = DiscordWebhook(url=discord_webhook_url)
 
 hackerone_url = 'https://raw.githubusercontent.com/Osb0rn3/bugbounty-targets/main/programs/hackerone.json'
