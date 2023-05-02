@@ -127,8 +127,8 @@ def function_bugcrowd():
         # loop over data items
         for item in data:
             if not item['target_groups']:
-                Asset_Identifier = 'seyed'
-                name = item['name']
+                Asset_Identifier = 'unformat_asset'
+                name = item['name'].lstrip().rstrip()
                 profile_picture = item['logo']
                 type_target = item['license_key']
                 handle = item['program_url']
@@ -139,7 +139,7 @@ def function_bugcrowd():
                 for scope in structured_scopes:
                     if item['target_groups'][0]['in_scope'] == True:
                         Asset_Identifier = scope['name']
-                        name = item['name']
+                        name = item['name'].lstrip().rstrip()
                         profile_picture = item['logo']
                         type_target = item['license_key']
                         handle = item['program_url']
@@ -148,32 +148,32 @@ def function_bugcrowd():
                     
 
 
-                    query = "SELECT * FROM programs WHERE name=%s AND Asset_Identifier=%s AND type=%s AND platform=%s"
-                    values = (name, Asset_Identifier, type_target, platform)
-                    cursor.execute(query, values)
-                    result = cursor.fetchone()
-                    #print(result)
-                    if result is None:
-                        # if record does not exist in table, insert it
-                        insert_query = "INSERT INTO programs (name, Asset_Identifier, type, platform) VALUES (%s, %s, %s, %s)"
-                        insert_values = (name, Asset_Identifier, type_target, platform)
-                        cursor.execute(insert_query, insert_values)
+            query = "SELECT * FROM programs WHERE name=%s AND Asset_Identifier=%s AND type=%s AND platform=%s"
+            values = (name, Asset_Identifier, type_target, platform)
+            cursor.execute(query, values)
+            result = cursor.fetchone()
+            #print(result)
+            if result is None:
+                # if record does not exist in table, insert it
+                insert_query = "INSERT INTO programs (name, Asset_Identifier, type, platform) VALUES (%s, %s, %s, %s)"
+                insert_values = (name, Asset_Identifier, type_target, platform)
+                cursor.execute(insert_query, insert_values)
 
-                        # create embed object
-                        embed = DiscordEmbed(title=platform, color='03b2f8')
-                        embed.set_thumbnail(url=profile_picture)
-                        embed.add_embed_field(name="Name: ", value=name, inline=False)
-                        embed.add_embed_field(name="Asset Identifier: ", value=Asset_Identifier, inline=False)
-                        embed.add_embed_field(name="Website: ", value=f"https://www.bugcrowd.com{handle}", inline=False)
-                        embed.add_embed_field(name="Offers Bounties: ", value=type_target, inline=False)
-                        embed.set_footer(text=f"New data detected at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-                        # add embed object to webhook
-                        webhook.add_embed(embed)
-                        # send webhook
-                        response = webhook.execute(remove_embeds=True)
-                        time.sleep(10)
-                        # clear all fields from the embed
-                        #embed.fields = []
+                # create embed object
+                embed = DiscordEmbed(title=platform, color='03b2f8')
+                embed.set_thumbnail(url=profile_picture)
+                embed.add_embed_field(name="Name: ", value=name, inline=False)
+                embed.add_embed_field(name="Asset Identifier: ", value=Asset_Identifier, inline=False)
+                embed.add_embed_field(name="Website: ", value=f"https://www.bugcrowd.com{handle}", inline=False)
+                embed.add_embed_field(name="Offers Bounties: ", value=type_target, inline=False)
+                embed.set_footer(text=f"New data detected at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+                # add embed object to webhook
+                webhook.add_embed(embed)
+                # send webhook
+                response = webhook.execute(remove_embeds=True)
+                time.sleep(10)
+                # clear all fields from the embed
+                #embed.fields = []
         db.commit()
         db.close()
     except Exception as e:
