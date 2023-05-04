@@ -11,8 +11,8 @@ def connect_to_mysql():
         # connect to the database
         db = mysql.connector.connect(
             host="localhost",
-            user="database username",
-            password="database password",
+            user="username",
+            password="password",
             database="watchscope"
         )
 
@@ -23,9 +23,9 @@ def connect_to_mysql():
         print("Error while connecting to MySQL", error)
         return None
 
-discord_webhook_url = "your webhook link"
-discord_webhook_url_error = "your webhook link for error messages"
-webhook = DiscordWebhook(url=discord_webhook_url)
+discord_webhook_url = "Your Discord webhook link"
+discord_webhook_url_error = "Your Discord webhook link for error message"
+webhook = DiscordWebhook(url=discord_webhook_url, rate_limit_retry=True)
 
 hackerone_url = 'https://raw.githubusercontent.com/Osb0rn3/bugbounty-targets/main/programs/hackerone.json'
 bugcrowd_url = 'https://raw.githubusercontent.com/Osb0rn3/bugbounty-targets/main/programs/bugcrowd.json'
@@ -91,11 +91,14 @@ def function_hackerone():
                     insert_values = (name, Asset_Identifier, type_target, platform)
                     cursor.execute(insert_query, insert_values)
 
+
                     # create embed object
                     embed = DiscordEmbed(title=platform, color='03b2f8')
-                    embed.set_thumbnail(url=profile_picture)
+                    length = len(profile_picture)
+                    if length < 300:
+                        embed.set_thumbnail(url=profile_picture)
                     embed.add_embed_field(name="Name: ", value=name, inline=False)
-                    embed.add_embed_field(name="Asset Identifier: ", value=Asset_Identifier, inline=False)
+                    embed.add_embed_field(name="Asset Identifier: ", value="```"+Asset_Identifier+"```", inline=False)
                     embed.add_embed_field(name="Website: ", value=f"https://hackerone.com/{handle}", inline=False)
                     embed.add_embed_field(name="Offers Bounties: ", value=type_target, inline=False)
                     embed.set_footer(text=f"New data detected at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -111,6 +114,7 @@ def function_hackerone():
     except Exception as e:
         handle_error(e)    
     pass
+
 
 def function_bugcrowd():
     try:
@@ -145,7 +149,7 @@ def function_bugcrowd():
                         handle = item['program_url']
                         platform = 'BugCrowd'
                         print(Asset_Identifier)
-                    
+
 
 
             query = "SELECT * FROM programs WHERE name=%s AND Asset_Identifier=%s AND type=%s AND platform=%s"
@@ -161,9 +165,11 @@ def function_bugcrowd():
 
                 # create embed object
                 embed = DiscordEmbed(title=platform, color='03b2f8')
-                embed.set_thumbnail(url=profile_picture)
+                length = len(profile_picture)
+                if length < 300:
+                    embed.set_thumbnail(url=profile_picture)
                 embed.add_embed_field(name="Name: ", value=name, inline=False)
-                embed.add_embed_field(name="Asset Identifier: ", value=Asset_Identifier, inline=False)
+                embed.add_embed_field(name="Asset Identifier: ", value="```"+Asset_Identifier+"```", inline=False)
                 embed.add_embed_field(name="Website: ", value=f"https://www.bugcrowd.com{handle}", inline=False)
                 embed.add_embed_field(name="Offers Bounties: ", value=type_target, inline=False)
                 embed.set_footer(text=f"New data detected at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
@@ -179,6 +185,7 @@ def function_bugcrowd():
     except Exception as e:
         handle_error(e)
     pass
+
 
 def function_yeswehack():
     try:
@@ -222,9 +229,11 @@ def function_yeswehack():
 
                     # create embed object
                     embed = DiscordEmbed(title=platform, color='03b2f8')
-                    embed.set_thumbnail(url=profile_picture)
+                    length = len(profile_picture)
+                    if length < 300:
+                        embed.set_thumbnail(url=profile_picture)
                     embed.add_embed_field(name="Name: ", value=name, inline=False)
-                    embed.add_embed_field(name="Asset Identifier: ", value=Asset_Identifier, inline=False)
+                    embed.add_embed_field(name="Asset Identifier: ", value="```"+Asset_Identifier+"```", inline=False)
                     embed.add_embed_field(name="Website: ", value=f"https://yeswehack.com/programs/{handle}", inline=False)
                     embed.add_embed_field(name="Offers Bounties: ", value=type_target, inline=False)
                     embed.set_footer(text=f"New data detected at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
