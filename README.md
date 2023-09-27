@@ -2,15 +2,15 @@
 
 ### A program to receive the latest changes in the scopes of the programs on hackerone, bugcrowd, and yeswehack.
 
-#### 1- Create a database according to the ```mysql.py``` file.
+#### 1- Create a database according to the ```my_sql.py``` file.
 #### 2- Edit the ```mysql.py``` file and enter your database information, then run mysql.py to create the desired table.
-```python3 mysql.py```
+```python3 my_sql.py```
 #### 3- Edit ```watchscope.py``` and write your databases information and webhook links and then run file.
 ```python
 def connect_to_mysql():
     try:
         # connect to the database
-        db = mysql.connector.connect(
+        db = pymysql.connect(
             host="localhost",
             user="database username",
             password="database password",
