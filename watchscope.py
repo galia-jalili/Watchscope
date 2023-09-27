@@ -84,12 +84,14 @@ def function_hackerone():
                 values = (name, Asset_Identifier, type_target, platform)
                 cursor.execute(query, values)
                 result = cursor.fetchone()
+                db.commit()
                 #print(result)
                 if result is None:
                     # if record does not exist in table, insert it
                     insert_query = "INSERT INTO programs (name, Asset_Identifier, type, platform) VALUES (%s, %s, %s, %s)"
                     insert_values = (name, Asset_Identifier, type_target, platform)
                     cursor.execute(insert_query, insert_values)
+                    db.commit()
 
 
                     # create embed object
@@ -157,11 +159,13 @@ def function_bugcrowd():
             cursor.execute(query, values)
             result = cursor.fetchone()
             #print(result)
+            db.commit()
             if result is None:
                 # if record does not exist in table, insert it
                 insert_query = "INSERT INTO programs (name, Asset_Identifier, type, platform) VALUES (%s, %s, %s, %s)"
                 insert_values = (name, Asset_Identifier, type_target, platform)
                 cursor.execute(insert_query, insert_values)
+                db.commit()
 
                 # create embed object
                 embed = DiscordEmbed(title=platform, color='03b2f8')
@@ -221,11 +225,13 @@ def function_yeswehack():
                 cursor.execute(query, values)
                 result = cursor.fetchone()
                 #print(result)
+                db.commit()
                 if result is None:
                     # if record does not exist in table, insert it
                     insert_query = "INSERT INTO programs (name, Asset_Identifier, type, platform) VALUES (%s, %s, %s, %s)"
                     insert_values = (name, Asset_Identifier, type_target, platform)
                     cursor.execute(insert_query, insert_values)
+                    db.commit()
 
                     # create embed object
                     embed = DiscordEmbed(title=platform, color='03b2f8')
