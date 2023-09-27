@@ -1,7 +1,7 @@
-import mysql.connector
+import pymysql
 
-mydb = mysql.connector.connect(
-    host="localhost",
+mydb = pymysql.connect(
+    host="localhost",x
     user="database username",
     password="database password",
     database="watchscope"
